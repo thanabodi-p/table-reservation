@@ -822,29 +822,33 @@ main {
 
 .status-badge {
     font-family: 'Montserrat', sans-serif;
-    font-size: 0.52rem;
+    font-size: 0.6rem;
     font-weight: 600;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.15em;
     text-transform: uppercase;
-    padding: 0.2rem 0.6rem;
-    border-radius: 2px;
-    align-self: flex-end;
+    padding: 0.35rem 0.8rem;
+    border-radius: var(--radius);
+    align-self: flex-start;
+    margin-top: 0.15rem;
+    /* Aligns with the middle of the store name */
 }
 
 .status-available {
-    color: #39ff6e;
-    background: rgba(57, 255, 110, 0.08);
-    border: 1px solid rgba(57, 255, 110, 0.4);
-    box-shadow: 0 0 10px rgba(57, 255, 110, 0.25), 0 0 30px rgba(57, 255, 110, 0.1);
-    text-shadow: 0 0 8px rgba(57, 255, 110, 0.8);
+    background: rgba(46, 204, 113, 0.12);
+    color: #58efa0;
+    /* Bright neon green */
+    border: 1px solid rgba(46, 204, 113, 0.5);
+    box-shadow: 0 0 15px rgba(46, 204, 113, 0.25), inset 0 0 10px rgba(46, 204, 113, 0.15);
+    text-shadow: 0 0 6px rgba(46, 204, 113, 0.8);
 }
 
 .status-booked {
-    color: #ff4060;
-    background: rgba(255, 64, 96, 0.08);
-    border: 1px solid rgba(255, 64, 96, 0.4);
-    box-shadow: 0 0 10px rgba(255, 64, 96, 0.25), 0 0 30px rgba(255, 64, 96, 0.1);
-    text-shadow: 0 0 8px rgba(255, 64, 96, 0.8);
+    background: rgba(255, 64, 96, 0.12);
+    color: #ff6b81;
+    /* Bright neon red/pink */
+    border: 1px solid rgba(255, 64, 96, 0.5);
+    box-shadow: 0 0 15px rgba(255, 64, 96, 0.25), inset 0 0 10px rgba(255, 64, 96, 0.15);
+    text-shadow: 0 0 6px rgba(255, 64, 96, 0.8);
 }
 
 /* ---- COPY BUTTON ---- */
