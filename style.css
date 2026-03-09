@@ -537,25 +537,55 @@ main {
 
 /* ---- NOTES ---- */
 .notes-section {
-    margin-top: 0.5rem;
-    padding: 0.85rem 1rem;
-    border-radius: var(--radius);
-    background: rgba(201, 168, 76, 0.04);
-    border: 1px solid rgba(201, 168, 76, 0.08);
-    border-left: 2px solid var(--gold-dark);
+    margin-top: 0.8rem;
+    padding: 1.2rem 1.4rem;
+    border-radius: var(--radius-lg);
+    background: linear-gradient(145deg, rgba(20, 22, 28, 0.4), rgba(15, 17, 21, 0.2));
+    border: 1px solid rgba(201, 168, 76, 0.15);
+    border-top: 1px solid rgba(201, 168, 76, 0.25);
+    box-shadow: inset 0 2px 20px rgba(0, 0, 0, 0.4);
+    position: relative;
+    overflow: hidden;
+}
+
+.notes-section::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--gold-light), var(--gold-dark), transparent);
 }
 
 .notes-section .detail-label {
-    display: block;
-    margin-bottom: 0.4rem;
-    color: var(--gold-dark);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.6rem;
+    color: var(--gold-light);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+}
+
+.notes-section .detail-label::before {
+    content: '✦';
+    font-size: 0.5rem;
+    color: var(--gold);
 }
 
 .notes-section .detail-value {
-    font-size: 0.88rem;
-    line-height: 1.6;
+    font-family: 'Kanit', sans-serif;
+    font-weight: 300;
+    font-size: 0.9rem;
+    line-height: 1.7;
+    letter-spacing: 0.03em;
     white-space: pre-wrap;
-    color: var(--text-secondary);
+    color: var(--text-primary);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
 }
 
 /* ---- CARD FOOTER ---- */
