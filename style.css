@@ -379,7 +379,7 @@ main {
 .card-header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     padding: 1.1rem 1.4rem;
     border-bottom: 1px solid transparent;
     position: relative;
@@ -401,31 +401,39 @@ main {
     background: linear-gradient(135deg, #161b26 0%, #1a2030 100%);
 }
 
+.header-left {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
 .store-name {
     font-family: 'Kanit', sans-serif;
-    font-size: 1.3rem;
-    font-weight: 400;
-    letter-spacing: 0.06em;
+    font-size: 1.35rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
     color: var(--text-white);
     text-transform: uppercase;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
 }
 
 .date-info {
     display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 0.3rem;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.35rem;
 }
 
 .date-tag,
 .day-tag {
     font-family: 'Montserrat', sans-serif;
-    font-size: 0.62rem;
+    font-size: 0.55rem;
     font-weight: 500;
-    padding: 0.2rem 0.65rem;
+    padding: 0.2rem 0.5rem;
     border-radius: 2px;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
+    opacity: 0.85;
 }
 
 .date-tag {

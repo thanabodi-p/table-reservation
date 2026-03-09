@@ -174,12 +174,14 @@ function renderTables(tables) {
 
         card.innerHTML = `
             <div class="card-header ${themeClass}">
-                <h2 class="store-name">${table.storeName}</h2>
-                <div class="card-meta">
+                <div class="header-left">
+                    <h2 class="store-name">${table.storeName}</h2>
                     <div class="date-info">
                         <span class="date-tag">${formattedDate}</span>
                         <span class="day-tag">${formattedDay}</span>
                     </div>
+                </div>
+                <div class="card-meta">
                     <span class="status-badge ${statusClass}">${statusText}</span>
                 </div>
             </div>
