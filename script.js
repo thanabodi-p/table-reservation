@@ -248,7 +248,21 @@ function formatThaiDate(dateString) {
     const parts = dateString.split('/');
     if (parts.length < 3) return dateString;
     const [month, day, year] = parts;
-    return `${day}/${month}/${parseInt(year) + 543}`;
+    const thaiMonths = {
+        '1': 'มกรา', '01': 'มกรา',
+        '2': 'กุมภา', '02': 'กุมภา',
+        '3': 'มีนา', '03': 'มีนา',
+        '4': 'เมษา', '04': 'เมษา',
+        '5': 'พฤษภา', '05': 'พฤษภา',
+        '6': 'มิถุนา', '06': 'มิถุนา',
+        '7': 'กรกฎา', '07': 'กรกฎา',
+        '8': 'สิงหา', '08': 'สิงหา',
+        '9': 'กันยา', '09': 'กันยา',
+        '10': 'ตุลา',
+        '11': 'พฤศจิกา',
+        '12': 'ธันวา'
+    };
+    return `${parseInt(day, 10)} ${thaiMonths[month] || month}`;
 }
 
 function formatThaiDateAndDay(dateString, dayString) {
