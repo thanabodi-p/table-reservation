@@ -760,21 +760,23 @@ main {
     position: relative;
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-    background: transparent;
-    color: var(--gold-mid);
-    border: 1px solid rgba(201, 168, 76, 0.28);
-    padding: 0.5rem 1rem;
-    border-radius: var(--radius-sm);
+    justify-content: center;
+    gap: 0.6rem;
+    background: rgba(201, 168, 76, 0.15);
+    color: var(--gold-light);
+    border: 1px solid rgba(201, 168, 76, 0.6);
+    padding: 0.8rem 1.4rem;
+    border-radius: var(--radius);
     cursor: pointer;
-    font-family: 'Jost', sans-serif;
-    font-size: 0.55rem;
-    font-weight: 400;
-    letter-spacing: 0.22em;
+    font-family: 'Kanit', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
     text-transform: uppercase;
     transition: all 0.4s ease;
     white-space: nowrap;
     overflow: hidden;
+    box-shadow: 0 4px 15px rgba(201, 168, 76, 0.1);
 }
 
 .layout-btn::before {
