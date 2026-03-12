@@ -873,9 +873,9 @@ main {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    background: rgba(8, 11, 16, 0.85);
-    color: var(--gold);
-    border: 1px solid rgba(201, 168, 76, 0.6);
+    background: rgba(255, 255, 255, 0.85);
+    color: #05060a;
+    border: 1px solid #ffffff;
     width: 48px;
     height: 48px;
     border-radius: 50%;
@@ -888,14 +888,14 @@ main {
     transition: all 0.3s;
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.9), 0 0 12px rgba(201, 168, 76, 0.2);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.9), 0 0 15px rgba(255, 255, 255, 0.2);
 }
 
 .carousel-btn:hover {
-    background: rgba(11, 14, 22, 0.95);
-    border-color: var(--gold-light);
-    color: var(--gold-light);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.9), 0 0 20px rgba(201, 168, 76, 0.4);
+    background: #ffffff;
+    border-color: #ffffff;
+    color: #000000;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.9), 0 0 25px rgba(255, 255, 255, 0.5);
     transform: translateY(-50%) scale(1.05);
 }
 
