@@ -10,10 +10,58 @@ const storeFilter = document.getElementById('store-filter');
 const quantityFilter = document.getElementById('quantity-filter');
 const lastUpdatedSpan = document.getElementById('last-updated');
 const modal = document.getElementById('image-modal');
-const modalImg = document.getElementById('modal-img');
+const carouselTrack = document.getElementById('carousel-track');
+const carouselPrev = document.getElementById('carousel-prev');
+const carouselNext = document.getElementById('carousel-next');
+const carouselIndicators = document.getElementById('carousel-indicators');
 const closeModal = document.querySelector('.close-btn');
 
 let allTables = [];
+let currentSlideIndex = 0;
+let modalImages = [];
+
+function updateCarousel() {
+    if (modalImages.length === 0) return;
+
+    // Slide track
+    carouselTrack.style.transform = `translateX(-${currentSlideIndex * 100}%)`;
+
+    // Update indicators
+    Array.from(carouselIndicators.children).forEach((dot, index) => {
+        if (index === currentSlideIndex) {
+            dot.classList.add('active');
+        } else {
+            dot.classList.remove('active');
+        }
+    });
+
+    // Update buttons visibility
+    if (modalImages.length > 1) {
+        carouselPrev.style.display = currentSlideIndex === 0 ? 'none' : 'flex';
+        carouselNext.style.display = currentSlideIndex === modalImages.length - 1 ? 'none' : 'flex';
+    } else {
+        carouselPrev.style.display = 'none';
+        carouselNext.style.display = 'none';
+    }
+}
+
+if (carouselPrev) {
+    carouselPrev.addEventListener('click', () => {
+        if (currentSlideIndex > 0) {
+            currentSlideIndex--;
+            updateCarousel();
+        }
+    });
+}
+
+if (carouselNext) {
+    carouselNext.addEventListener('click', () => {
+        if (currentSlideIndex < modalImages.length - 1) {
+            currentSlideIndex++;
+            updateCarousel();
+        }
+    });
+}
 
 // สถานะที่อนุญาตให้แสดง
 const VISIBLE_STATUSES = ['ว่าง', 'ถูกจองแล้ว'];
@@ -52,7 +100,7 @@ async function fetchData() {
             dayOfWeek: row[10] ? row[10].trim() : 'N/A',
             notes: row[11] || '',
             hashtag: row[12] || 'N/A',
-            layoutImage: row[13] || null,
+            layoutImages: [row[13], row[14], row[15], row[16]].filter(img => img && typeof img === 'string' && img.trim() !== ''),
         }));
 
         // เรียงตามวันที่ น้อย → มาก
@@ -151,8 +199,8 @@ function renderTables(tables) {
         const statusClass = isAvailable ? 'status-available' : 'status-booked';
         const statusText = isAvailable ? 'AVAILABLE' : 'RESERVED';
 
-        const layoutButtonHTML = table.layoutImage
-            ? `<button class="layout-btn" data-img-src="${table.layoutImage}">
+        const layoutButtonHTML = table.layoutImages && table.layoutImages.length > 0
+            ? `<button class="layout-btn" data-images='${JSON.stringify(table.layoutImages)}'>
                     <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
                         <circle cx="12" cy="12" r="3"></circle>
@@ -315,9 +363,36 @@ tablesContainer.addEventListener('click', function (event) {
 
     const layoutBtn = event.target.closest('.layout-btn');
     if (layoutBtn) {
-        const imgSrc = layoutBtn.getAttribute('data-img-src');
-        modalImg.src = imgSrc;
-        modal.style.display = 'block';
+        try {
+            modalImages = JSON.parse(layoutBtn.getAttribute('data-images') || '[]');
+        } catch (e) {
+            modalImages = [];
+        }
+
+        if (modalImages.length > 0) {
+            currentSlideIndex = 0;
+
+            // Generate slides
+            carouselTrack.innerHTML = modalImages.map(src =>
+                `<div class="carousel-slide"><img src="${src}" alt="Table Layout"></div>`
+            ).join('');
+
+            // Generate indicators
+            carouselIndicators.innerHTML = modalImages.length > 1 ? modalImages.map((_, i) =>
+                `<div class="indicator${i === 0 ? ' active' : ''}" data-index="${i}"></div>`
+            ).join('') : '';
+
+            // Add click events to indicators
+            Array.from(carouselIndicators.children).forEach(dot => {
+                dot.addEventListener('click', function () {
+                    currentSlideIndex = parseInt(this.getAttribute('data-index'));
+                    updateCarousel();
+                });
+            });
+
+            updateCarousel();
+            modal.style.display = 'block';
+        }
     }
 });
 

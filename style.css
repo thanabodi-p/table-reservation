@@ -835,16 +835,98 @@ main {
     padding: 2rem;
 }
 
-.modal-content {
-    display: block;
+.carousel-container {
+    position: relative;
     max-width: 760px;
-    max-height: 85vh;
     width: 100%;
-    object-fit: contain;
     border-radius: var(--radius);
     border: 1px solid rgba(201, 168, 76, 0.2);
     box-shadow: 0 0 100px rgba(201, 168, 76, 0.10);
     animation: modalIn 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+    overflow: hidden;
+    background: #000;
+}
+
+.carousel-track {
+    display: flex;
+    transition: transform 0.4s ease-in-out;
+    width: 100%;
+}
+
+.carousel-slide {
+    flex: 0 0 100%;
+    width: 100%;
+    max-height: 85vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.carousel-slide img {
+    max-width: 100%;
+    max-height: 85vh;
+    object-fit: contain;
+    display: block;
+}
+
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(5, 6, 10, 0.6);
+    color: var(--gold-light);
+    border: 1px solid rgba(201, 168, 76, 0.3);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    z-index: 10;
+    transition: all 0.3s;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
+.carousel-btn:hover {
+    background: rgba(5, 6, 10, 0.9);
+    border-color: var(--gold);
+    box-shadow: 0 0 15px var(--gold-dim);
+}
+
+.prev-btn {
+    left: 1rem;
+}
+
+.next-btn {
+    right: 1rem;
+}
+
+.carousel-indicators {
+    position: absolute;
+    bottom: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    z-index: 10;
+}
+
+.indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.indicator.active {
+    background: var(--gold);
+    box-shadow: 0 0 8px var(--gold-light);
+    transform: scale(1.2);
 }
 
 @keyframes modalIn {
