@@ -270,6 +270,43 @@ header::after {
     color: var(--gold);
 }
 
+/* ---- EXCLUSIVE BANNER ---- */
+.exclusive-banner {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+    margin-top: 1.5rem;
+    padding: 0.6rem 1.2rem;
+    background: linear-gradient(90deg, transparent, rgba(201, 168, 76, 0.08), transparent);
+    border-top: 1px solid rgba(201, 168, 76, 0.15);
+    border-bottom: 1px solid rgba(201, 168, 76, 0.15);
+}
+
+.banner-icon {
+    color: var(--gold);
+    font-size: 0.7rem;
+    animation: pulse-text 3s infinite alternate;
+}
+
+.banner-text {
+    font-family: 'Kanit', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 300;
+    color: var(--text-ivory);
+    letter-spacing: 0.02em;
+}
+
+.banner-text strong {
+    font-family: 'Montserrat', 'Kanit', sans-serif;
+    font-weight: 500;
+    color: var(--gold-light);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    margin-right: 0.3rem;
+}
+
 /* ---- MAIN LAYOUT ---- */
 main {
     position: relative;
