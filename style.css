@@ -873,27 +873,30 @@ main {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    background: rgba(5, 6, 10, 0.6);
-    color: var(--gold-light);
-    border: 1px solid rgba(201, 168, 76, 0.3);
-    width: 40px;
-    height: 40px;
+    background: rgba(8, 11, 16, 0.85);
+    color: var(--gold);
+    border: 1px solid rgba(201, 168, 76, 0.6);
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
     cursor: pointer;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.2rem;
+    font-size: 1.6rem;
     z-index: 10;
     transition: all 0.3s;
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.9), 0 0 12px rgba(201, 168, 76, 0.2);
 }
 
 .carousel-btn:hover {
-    background: rgba(5, 6, 10, 0.9);
-    border-color: var(--gold);
-    box-shadow: 0 0 15px var(--gold-dim);
+    background: rgba(11, 14, 22, 0.95);
+    border-color: var(--gold-light);
+    color: var(--gold-light);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.9), 0 0 20px rgba(201, 168, 76, 0.4);
+    transform: translateY(-50%) scale(1.05);
 }
 
 .prev-btn {
