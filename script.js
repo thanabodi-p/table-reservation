@@ -305,16 +305,16 @@ function populateFilters() {
 // ฟังก์ชันเช็คว่าโต๊ะนี้ถูกแนะนำหรือไม่
 function isTableRecommended(table, currentPartySize) {
     if (table.status !== 'ว่าง' || currentPartySize <= 0) return false;
-    
+
     // 1-7 คน -> แนะนำโต๊ะเดี่ยว (1 โต๊ะ)
     if (currentPartySize >= 1 && currentPartySize <= 7 && table.quantity === 1) {
         return true;
-    } 
+    }
     // 7-14 คน -> แนะนำโต๊ะคู่ (2 โต๊ะขึ้นไป) 
     else if (currentPartySize >= 7 && currentPartySize <= 14 && table.quantity >= 2) {
         return true;
     }
-    
+
     return false;
 }
 
@@ -336,7 +336,7 @@ function renderTables(tables) {
     const sortedTables = [...tables].sort((a, b) => {
         const isRecA = isTableRecommended(a, partySize);
         const isRecB = isTableRecommended(b, partySize);
-        
+
         // ถ้าสถานะแนะนำไม่เหมือนกัน เอาตัวแนะนำขึ้นก่อน
         if (isRecA !== isRecB) {
             return isRecA ? -1 : 1;
@@ -346,9 +346,9 @@ function renderTables(tables) {
         const isAvailA = a.status === 'ว่าง';
         const isAvailB = b.status === 'ว่าง';
         if (isAvailA !== isAvailB) {
-            return isAvailA ? -1 : 1; 
+            return isAvailA ? -1 : 1;
         }
-        
+
         // ถ้าสถานะแนะนำและความว่างเหมือนกัน ให้เรียงตามวันที่
         const dateA = parseSheetDate(a.date);
         const dateB = parseSheetDate(b.date);
@@ -409,8 +409,8 @@ function renderTables(tables) {
             const perPersonCost = Math.ceil(Math.max(0, extraCost) / partySize);
             perPersonHTML = `
                 <div class="per-person-wrapper">
-                    <span class="per-person-label">ตกท่านละ</span>
-                    <span class="per-person-val">${perPersonCost.toLocaleString()}</span>
+                    <span class="per-person-label">(ตกท่านละ</span>
+                    <span class="per-person-val">${perPersonCost.toLocaleString()} บาท)</span>
                 </div>
             `;
         }
