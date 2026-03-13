@@ -66,15 +66,17 @@ if (carouselNext) {
 
 // --- Swipeable Image Gallery for VVIP Experience ---
 let isDragging = false;
-let startPos = 0;
+let startPosX = 0;
+let startPosY = 0;
+let isScrolling = false;
 
 // ป้องกันการลากรูปภาพเป็น default พฤติกรรมของเบราว์เซอร์
 carouselTrack.addEventListener('dragstart', (e) => e.preventDefault());
 
-// ใช้ passive: false เพื่อให้สามารถสั่ง preventDefault() ดักจับ gesture ของเบราว์เซอร์ได้
-carouselTrack.addEventListener('touchstart', touchStart, { passive: false });
+// ใน iOS การจะ preventDefault ต้องมี passive: false
+carouselTrack.addEventListener('touchstart', touchStart, { passive: true });
 carouselTrack.addEventListener('touchend', touchEnd);
-carouselTrack.addEventListener('touchcancel', touchEnd); // เผื่อเบราว์เซอร์ยกเลิกการทัช
+carouselTrack.addEventListener('touchcancel', touchEnd); 
 carouselTrack.addEventListener('touchmove', touchMove, { passive: false });
 
 // เสริมให้ใช้เมาส์ลากได้ด้วยบน Desktop
@@ -88,31 +90,50 @@ carouselTrack.addEventListener('mousemove', touchMove);
 function getPositionX(event) {
     return event.type.includes('mouse') ? event.clientX : event.touches[0].clientX;
 }
+function getPositionY(event) {
+    return event.type.includes('mouse') ? event.clientY : event.touches[0].clientY;
+}
 
 function touchStart(event) {
     if (modalImages.length <= 1) return;
     isDragging = true;
-    startPos = getPositionX(event);
+    isScrolling = false;
+    startPosX = getPositionX(event);
+    startPosY = getPositionY(event);
     carouselTrack.style.transition = 'none'; // ปิด transition เพื่อให้ลากตามนิ้วได้ทันที
 }
 
 function touchMove(event) {
     if (!isDragging) return;
 
-    // สำคัญ: ป้องกันการเลื่อน/คลื่นหรือการ "ปัดกลับ (Swipe back)" แบบ default ของเเบราว์เซอร์ โดยเฉพาะใน iOS
-    if (event.cancelable) {
-        event.preventDefault();
+    const currentPosX = getPositionX(event);
+    const currentPosY = getPositionY(event);
+    const diffX = currentPosX - startPosX;
+    const diffY = currentPosY - startPosY;
+
+    // ถ้าเป็นการเลื่อนขึ้นลงมากกว่าซ้ายขวา (Scroll) ให้ปล่อยผ่าน
+    if (!isScrolling) {
+        if (Math.abs(diffY) > Math.abs(diffX)) {
+            isScrolling = true;
+            isDragging = false;
+            return;
+        }
+    }
+    
+    // ถ้ากำลังเลื่อนซ้ายขวา (Slide) ให้บล็อค default event ของเบราว์เซอร์
+    if (isDragging && !isScrolling) {
+        if (event.cancelable) {
+            event.preventDefault();
+        }
     }
 
-    const currentPosition = getPositionX(event);
-    const diff = currentPosition - startPos;
-    const shift = (-(currentSlideIndex * 100)) + ((diff / carouselTrack.offsetWidth) * 100);
+    const shift = (-(currentSlideIndex * 100)) + ((diffX / carouselTrack.offsetWidth) * 100);
 
     // จำกัดไม่ให้ลากเลยกรอบซ้ายและขวาสุดมากเกินไป (หนืดๆ)
-    if (currentSlideIndex === 0 && diff > 0) {
+    if (currentSlideIndex === 0 && diffX > 0) {
         carouselTrack.style.transform = `translateX(${shift * 0.2}%)`;
-    } else if (currentSlideIndex === modalImages.length - 1 && diff < 0) {
-        carouselTrack.style.transform = `translateX(${(-(currentSlideIndex * 100)) + (diff / carouselTrack.offsetWidth * 100) * 0.2}%)`;
+    } else if (currentSlideIndex === modalImages.length - 1 && diffX < 0) {
+        carouselTrack.style.transform = `translateX(${(-(currentSlideIndex * 100)) + (diffX / carouselTrack.offsetWidth * 100) * 0.2}%)`;
     } else {
         carouselTrack.style.transform = `translateX(${shift}%)`;
     }
@@ -122,24 +143,24 @@ function touchEnd(event) {
     if (!isDragging) return;
     isDragging = false;
 
-    let endPos;
+    let endPosX;
     if (event.type.includes('mouse')) {
-        endPos = event.clientX;
+        endPosX = event.clientX;
     } else if (event.changedTouches && event.changedTouches.length > 0) {
-        endPos = event.changedTouches[0].clientX;
+        endPosX = event.changedTouches[0].clientX;
     } else {
-        endPos = startPos;
+        endPosX = startPosX;
     }
 
-    const diff = endPos - startPos;
+    const diffX = endPosX - startPosX;
 
     carouselTrack.style.transition = 'transform 0.4s ease-in-out'; // เปิด transition กลับมาเหมือนเดิม
 
     const swipeThreshold = carouselTrack.offsetWidth * 0.15; // ต้องลากผ่าน 15% ของความกว้าง
 
-    if (diff < -swipeThreshold && currentSlideIndex < modalImages.length - 1) {
+    if (diffX < -swipeThreshold && currentSlideIndex < modalImages.length - 1) {
         currentSlideIndex++;
-    } else if (diff > swipeThreshold && currentSlideIndex > 0) {
+    } else if (diffX > swipeThreshold && currentSlideIndex > 0) {
         currentSlideIndex--;
     }
 
