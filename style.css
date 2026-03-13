@@ -888,6 +888,14 @@ main {
     display: flex;
     transition: transform 0.4s ease-in-out;
     width: 100%;
+    touch-action: pan-y;
+    user-select: none;
+    -webkit-user-select: none;
+    cursor: grab;
+}
+
+.carousel-track:active {
+    cursor: grabbing;
 }
 
 .carousel-slide {

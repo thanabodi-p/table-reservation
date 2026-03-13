@@ -24,6 +24,7 @@ function updateCarousel() {
     if (modalImages.length === 0) return;
 
     // Slide track
+    carouselTrack.style.transition = 'transform 0.4s ease-in-out';
     carouselTrack.style.transform = `translateX(-${currentSlideIndex * 100}%)`;
 
     // Update indicators
@@ -61,6 +62,81 @@ if (carouselNext) {
             updateCarousel();
         }
     });
+}
+
+// --- Swipeable Image Gallery for VVIP Experience ---
+let isDragging = false;
+let startPos = 0;
+
+// ป้องกันการลากรูปภาพเป็น default พฤติกรรมของเบราว์เซอร์
+carouselTrack.addEventListener('dragstart', (e) => e.preventDefault());
+
+carouselTrack.addEventListener('touchstart', touchStart, { passive: true });
+carouselTrack.addEventListener('touchend', touchEnd);
+carouselTrack.addEventListener('touchmove', touchMove, { passive: true });
+
+// เสริมให้ใช้เมาส์ลากได้ด้วยบน Desktop
+carouselTrack.addEventListener('mousedown', touchStart);
+carouselTrack.addEventListener('mouseup', touchEnd);
+carouselTrack.addEventListener('mouseleave', (e) => { 
+    if(isDragging) touchEnd(e); 
+});
+carouselTrack.addEventListener('mousemove', touchMove);
+
+function getPositionX(event) {
+    return event.type.includes('mouse') ? event.clientX : event.touches[0].clientX;
+}
+
+function touchStart(event) {
+    if (modalImages.length <= 1) return;
+    isDragging = true;
+    startPos = getPositionX(event);
+    carouselTrack.style.transition = 'none'; // ปิด transition เพื่อให้ลากตามนิ้วได้ทันที
+}
+
+function touchMove(event) {
+    if (!isDragging) return;
+    
+    const currentPosition = getPositionX(event);
+    const diff = currentPosition - startPos;
+    const shift = (-(currentSlideIndex * 100)) + ((diff / carouselTrack.offsetWidth) * 100);
+    
+    // จำกัดไม่ให้ลากเลยกรอบซ้ายและขวาสุดมากเกินไป (หนืดๆ)
+    if (currentSlideIndex === 0 && diff > 0) {
+        carouselTrack.style.transform = `translateX(${shift * 0.2}%)`; 
+    } else if (currentSlideIndex === modalImages.length - 1 && diff < 0) {
+        carouselTrack.style.transform = `translateX(${(-(currentSlideIndex * 100)) + (diff / carouselTrack.offsetWidth * 100) * 0.2}%)`; 
+    } else {
+        carouselTrack.style.transform = `translateX(${shift}%)`;
+    }
+}
+
+function touchEnd(event) {
+    if (!isDragging) return;
+    isDragging = false;
+    
+    let endPos;
+    if (event.type.includes('mouse')) {
+        endPos = event.clientX;
+    } else if (event.changedTouches && event.changedTouches.length > 0) {
+        endPos = event.changedTouches[0].clientX;
+    } else {
+        endPos = startPos; 
+    }
+    
+    const diff = endPos - startPos;
+    
+    carouselTrack.style.transition = 'transform 0.4s ease-in-out'; // เปิด transition กลับมาเหมือนเดิม
+
+    const swipeThreshold = carouselTrack.offsetWidth * 0.15; // ต้องลากผ่าน 15% ของความกว้าง
+
+    if (diff < -swipeThreshold && currentSlideIndex < modalImages.length - 1) {
+        currentSlideIndex++;
+    } else if (diff > swipeThreshold && currentSlideIndex > 0) {
+        currentSlideIndex--;
+    }
+    
+    updateCarousel();
 }
 
 // สถานะที่อนุญาตให้แสดง
@@ -374,7 +450,7 @@ tablesContainer.addEventListener('click', function (event) {
 
             // Generate slides
             carouselTrack.innerHTML = modalImages.map(src =>
-                `<div class="carousel-slide"><img src="${src}" alt="Table Layout"></div>`
+                `<div class="carousel-slide"><img src="${src}" alt="Table Layout" draggable="false"></div>`
             ).join('');
 
             // Generate indicators
