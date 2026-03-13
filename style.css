@@ -810,19 +810,6 @@ main {
     color: var(--gold-light);
     line-height: 1;
     letter-spacing: 0.02em;
-    display: flex;
-    align-items: baseline;
-    gap: 0.5rem;
-}
-
-.per-person-price {
-    font-family: 'Kanit', sans-serif;
-    font-size: 0.85rem;
-    font-weight: 300;
-    color: var(--text-white);
-    letter-spacing: 0.02em;
-    opacity: 0.9;
-    text-shadow: 0 0 8px rgba(230, 203, 130, 0.4);
 }
 
 /* ---- LAYOUT BUTTON ---- */

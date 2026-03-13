@@ -407,7 +407,12 @@ function renderTables(tables) {
         if (partySize > 0 && table.total > 0) {
             const extraCost = table.total - (table.creditPrice * table.quantity);
             const perPersonCost = Math.ceil(Math.max(0, extraCost) / partySize);
-            perPersonHTML = `<span class="per-person-price">(ตกท่านละ ${perPersonCost.toLocaleString()} ฿)</span>`;
+            perPersonHTML = `
+                <div class="detail-row">
+                    <span class="detail-label">ตกท่านละ</span>
+                    <span class="detail-value">${perPersonCost.toLocaleString()}</span>
+                </div>
+            `;
         }
 
         card.innerHTML = `
@@ -449,12 +454,13 @@ function renderTables(tables) {
                     <span class="detail-label">มูลค่าเครดิตโต๊ะ</span>
                     <span class="detail-value">${(table.creditPrice * table.quantity).toLocaleString()}</span>
                 </div>
+                ${perPersonHTML}
                 ${notesHTML}
             </div>
             <div class="card-footer">
                 <div class="total-row">
                     <span class="total-label">Total</span>
-                    <span class="total-price">${table.total.toLocaleString()} ฿ ${perPersonHTML}</span>
+                    <span class="total-price">${table.total.toLocaleString()} ฿</span>
                 </div>
                 ${layoutButtonHTML}
             </div>
