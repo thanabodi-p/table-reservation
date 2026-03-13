@@ -335,9 +335,13 @@ function renderTables(tables) {
         // Recommendation System
         let recommendedBadgeHTML = '';
         if (isAvailable && partySize > 0) {
-            if (partySize >= 6 && partySize <= 7 && table.quantity === 1) {
+            // 1-7 คน -> แนะนำโต๊ะเดี่ยว (1 โต๊ะ)
+            if (partySize >= 1 && partySize <= 7 && table.quantity === 1) {
                 recommendedBadgeHTML = `<div class="recommended-badge">Recommended for ${partySize} pax</div>`;
-            } else if (partySize >= 7 && table.quantity >= 2) {
+            } 
+            // 7-14 คน -> แนะนำโต๊ะคู่ (2 โต๊ะขึ้นไป) 
+            // (ถ้า 7 คน พอดี จะเข้าเงื่อนไขทั้งโต๊ะเดี่ยวและคู่)
+            else if (partySize >= 7 && partySize <= 14 && table.quantity >= 2) {
                 recommendedBadgeHTML = `<div class="recommended-badge">Recommended for ${partySize} pax</div>`;
             }
         }
@@ -366,7 +370,8 @@ function renderTables(tables) {
         // Per-person price calculation
         let perPersonHTML = '';
         if (partySize > 0 && table.total > 0) {
-            const perPersonCost = Math.ceil(table.total / partySize);
+            const extraCost = table.total - (table.creditPrice * table.quantity);
+            const perPersonCost = Math.ceil(Math.max(0, extraCost) / partySize);
             perPersonHTML = `<span class="per-person-price">(ตกคนละ ${perPersonCost.toLocaleString()} ฿)</span>`;
         }
 
