@@ -77,7 +77,7 @@ if (partySubmit) {
                         overlay.style.opacity = '0';
                         setTimeout(() => overlay.remove(), 600);
                         
-                    }, hideTime + 600); // 600ms extra for luxury suspense
+                    }, hideTime + 1500); // หน่วงเวลา 1.5 วินาที ตามที่ต้องการ
                 }
             }, 600);
         } else {
@@ -397,8 +397,8 @@ function renderTables(tables) {
     sortedTables.forEach((table, index) => {
         const card = document.createElement('div');
         card.className = 'table-card card-entering';
-        // Add staggered delay for any render to look elegant
-        card.style.animationDelay = `${index * 0.04}s`;
+        // Add staggered delay for any render to look elegant (600ms ห่างกันทีละการ์ด)
+        card.style.animationDelay = `${index * 0.6}s`;
 
         const [formattedDate, formattedDay] = formatThaiDateAndDay(table.date, table.dayOfWeek);
 
