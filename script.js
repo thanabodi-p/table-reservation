@@ -267,10 +267,10 @@ function populateFilters() {
     const storeNames = [...new Set(visibleTables.map(t => t.storeName).filter(n => n && n !== 'N/A'))];
     const quantities = [...new Set(visibleTables.map(t => t.quantity).filter(q => q > 0))].sort((a, b) => a - b);
 
-    dateFilter.innerHTML = '<option value="all">◆ ทุกวันที่</option>';
-    dayFilter.innerHTML = '<option value="all">◆ ทุกวัน</option>';
-    storeFilter.innerHTML = '<option value="all">◆ ทุกร้าน</option>';
-    quantityFilter.innerHTML = '<option value="all">◆ ทุกจำนวนโต๊ะ</option>';
+    dateFilter.innerHTML = '<option value="all">✧ ทุกวันที่</option>';
+    dayFilter.innerHTML = '<option value="all">✧ ทุกวัน</option>';
+    storeFilter.innerHTML = '<option value="all">✧ ทุกร้าน</option>';
+    quantityFilter.innerHTML = '<option value="all">✧ ทุกจำนวนโต๊ะ</option>';
 
     dates.forEach(date => {
         const option = document.createElement('option');
