@@ -38,11 +38,48 @@ if (partySubmit) {
         const value = parseInt(partyInput.value, 10);
         if (value > 0) {
             partySize = value;
-            partyModal.style.display = 'none';
-            document.body.style.overflow = ''; // คืนค่าการเลื่อนหน้าจอ
-            if (allTables.length > 0) {
-                applyFilters(); // Re-render tables with the new partySize
-            }
+            
+            // 1. Fade out modal smoothly
+            partyModal.style.transition = 'opacity 0.6s ease, backdrop-filter 0.6s ease';
+            partyModal.style.opacity = '0';
+            partyModal.style.backdropFilter = 'blur(0px)';
+            
+            // Scroll to top to see animation clearly
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            setTimeout(() => {
+                partyModal.style.display = 'none';
+                document.body.style.overflow = ''; // คืนค่าการเลื่อนหน้าจอ
+                
+                if (allTables.length > 0) {
+                    const currentCards = tablesContainer.querySelectorAll('.table-card');
+                    
+                    // 2. Animate out current cards
+                    currentCards.forEach((card, index) => {
+                        card.classList.remove('card-entering');
+                        card.style.animation = `cardOut 0.4s cubic-bezier(0.25, 0.8, 0.25, 1) forwards ${index * 0.03}s`;
+                    });
+
+                    // 3. Show curating text overlay
+                    const overlay = document.createElement('div');
+                    overlay.className = 'curating-overlay';
+                    overlay.innerHTML = '<span class="gold-text">✧</span> CURATING RECOMMENDATIONS <span class="gold-text">✧</span>';
+                    document.body.appendChild(overlay);
+                    
+                    setTimeout(() => { overlay.style.opacity = '1'; }, 50);
+
+                    // 4. Wait for out animation + subtle pause, then re-render
+                    const hideTime = 400 + (currentCards.length * 30);
+                    setTimeout(() => {
+                        // This rebuilds cards, triggers staggered card-entering animation
+                        applyFilters(); 
+                        
+                        overlay.style.opacity = '0';
+                        setTimeout(() => overlay.remove(), 600);
+                        
+                    }, hideTime + 600); // 600ms extra for luxury suspense
+                }
+            }, 600);
         } else {
             partyWarning.style.opacity = '1';
         }
@@ -357,9 +394,11 @@ function renderTables(tables) {
         return dateA - dateB;
     });
 
-    sortedTables.forEach(table => {
+    sortedTables.forEach((table, index) => {
         const card = document.createElement('div');
-        card.className = 'table-card';
+        card.className = 'table-card card-entering';
+        // Add staggered delay for any render to look elegant
+        card.style.animationDelay = `${index * 0.04}s`;
 
         const [formattedDate, formattedDay] = formatThaiDateAndDay(table.date, table.dayOfWeek);
 
