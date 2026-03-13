@@ -812,16 +812,28 @@ main {
     letter-spacing: 0.02em;
     display: flex;
     align-items: baseline;
-    gap: 0.4rem;
+    gap: 0.5rem;
 }
 
-.per-person-price {
-    font-family: 'Kanit', sans-serif;
-    font-size: 1rem;
-    font-weight: 400;
-    color: var(--text-white);
-    letter-spacing: normal;
-    opacity: 0.85;
+.per-person-wrapper {
+    display: flex;
+    align-items: baseline;
+    gap: 0.3rem;
+}
+
+.per-person-label {
+    font-family: 'Montserrat', 'Kanit', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    color: var(--text-warm);
+}
+
+.per-person-val {
+    font-family: 'Kanit', 'Montserrat', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-ivory);
 }
 
 /* ---- LAYOUT BUTTON ---- */
