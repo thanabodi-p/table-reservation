@@ -16,9 +16,38 @@ const carouselNext = document.getElementById('carousel-next');
 const carouselIndicators = document.getElementById('carousel-indicators');
 const closeModal = document.querySelector('.close-btn');
 
+// Party Size Modal Elements
+const partyModal = document.getElementById('party-modal');
+const partyInput = document.getElementById('party-input');
+const partySubmit = document.getElementById('party-submit');
+const partyWarning = document.getElementById('party-warning');
+
 let allTables = [];
 let currentSlideIndex = 0;
 let modalImages = [];
+let partySize = 0;
+
+// ปิดการเลื่อนหน้าจอชั่วคราวขณะแสดง Party Modal
+if (partyModal) {
+    document.body.style.overflow = 'hidden';
+    partyModal.style.display = 'block';
+}
+
+if (partySubmit) {
+    partySubmit.addEventListener('click', () => {
+        const value = parseInt(partyInput.value, 10);
+        if (value > 0) {
+            partySize = value;
+            partyModal.style.display = 'none';
+            document.body.style.overflow = ''; // คืนค่าการเลื่อนหน้าจอ
+            if (allTables.length > 0) {
+                applyFilters(); // Re-render tables with the new partySize
+            }
+        } else {
+            partyWarning.style.opacity = '1';
+        }
+    });
+}
 
 function updateCarousel() {
     if (modalImages.length === 0) return;
@@ -302,6 +331,16 @@ function renderTables(tables) {
         const isAvailable = table.status === 'ว่าง';
         const statusClass = isAvailable ? 'status-available' : 'status-booked';
         const statusText = isAvailable ? 'AVAILABLE' : 'RESERVED';
+        
+        // Recommendation System
+        let recommendedBadgeHTML = '';
+        if (isAvailable && partySize > 0) {
+            if (partySize >= 6 && partySize <= 7 && table.quantity === 1) {
+                recommendedBadgeHTML = `<div class="recommended-badge">Recommended for ${partySize} pax</div>`;
+            } else if (partySize >= 7 && table.quantity >= 2) {
+                recommendedBadgeHTML = `<div class="recommended-badge">Recommended for ${partySize} pax</div>`;
+            }
+        }
 
         const layoutButtonHTML = table.layoutImages && table.layoutImages.length > 0
             ? `<button class="layout-btn" data-images='${JSON.stringify(table.layoutImages)}'>
@@ -323,17 +362,25 @@ function renderTables(tables) {
 
         // Copy text
         const copyText = `สนใจจอง ${table.storeName} วันที่ ${formattedDate} โซน ${table.zone} โต๊ะ ${table.tableNumber}`;
+        
+        // Per-person price calculation
+        let perPersonHTML = '';
+        if (partySize > 0 && table.total > 0) {
+            const perPersonCost = Math.ceil(table.total / partySize);
+            perPersonHTML = `<span class="per-person-price">(ตกคนละ ${perPersonCost.toLocaleString()} ฿)</span>`;
+        }
 
         card.innerHTML = `
             <div class="card-header ${themeClass}">
-                <div class="header-left">
+                ${recommendedBadgeHTML}
+                <div class="header-left" ${recommendedBadgeHTML ? 'style="margin-top: 1rem;"' : ''}>
                     <h2 class="store-name">${table.storeName}</h2>
                     <div class="date-info">
                         <span class="date-tag">${formattedDate}</span>
                         <span class="day-tag">${formattedDay}</span>
                     </div>
                 </div>
-                <div class="card-meta">
+                <div class="card-meta" ${recommendedBadgeHTML ? 'style="margin-top: 1rem;"' : ''}>
                     <span class="status-badge ${statusClass}">${statusText}</span>
                 </div>
             </div>
@@ -367,7 +414,7 @@ function renderTables(tables) {
             <div class="card-footer">
                 <div class="total-row">
                     <span class="total-label">Total</span>
-                    <span class="total-price">${table.total.toLocaleString()} ฿</span>
+                    <span class="total-price">${table.total.toLocaleString()} ฿ ${perPersonHTML}</span>
                 </div>
                 ${layoutButtonHTML}
             </div>

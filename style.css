@@ -506,6 +506,26 @@ main {
     overflow: hidden;
 }
 
+/* Recommended Badge inside the header */
+.recommended-badge {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(90deg, transparent, rgba(201, 168, 76, 0.2), var(--gold-mid), rgba(201, 168, 76, 0.2), transparent);
+    color: var(--bg-deep);
+    font-family: 'Jost', sans-serif;
+    font-size: 0.55rem;
+    font-weight: 500;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    text-align: center;
+    padding: 0.25rem 0;
+    z-index: 10;
+    box-shadow: 0 2px 10px rgba(201, 168, 76, 0.3);
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.4);
+}
+
 /* Gold fine line at bottom of header */
 .card-header::after {
     content: '';
@@ -790,6 +810,19 @@ main {
     color: var(--gold-light);
     line-height: 1;
     letter-spacing: 0.02em;
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+}
+
+.per-person-price {
+    font-family: 'Kanit', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 300;
+    color: var(--text-white);
+    letter-spacing: 0.02em;
+    opacity: 0.9;
+    text-shadow: 0 0 8px rgba(230, 203, 130, 0.4);
 }
 
 /* ---- LAYOUT BUTTON ---- */
@@ -1012,6 +1045,136 @@ main {
     color: var(--gold-light);
     border-color: var(--gold);
     box-shadow: 0 0 20px var(--gold-dim);
+}
+
+/* ---- PARTY SIZE MODAL ---- */
+.party-container {
+    background: var(--bg-card);
+    border: 1px solid var(--gold-line);
+    border-top-color: rgba(230, 203, 130, 0.3);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card-hv);
+    padding: 3.5rem 2.5rem;
+    text-align: center;
+    max-width: 480px;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    animation: modalIn 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.party-container::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at top, rgba(201, 168, 76, 0.1), transparent 70%);
+    pointer-events: none;
+}
+
+.party-icon {
+    font-size: 1.5rem;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+    animation: pulse-text 4s infinite alternate;
+}
+
+.party-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    color: var(--gold-light);
+    margin-bottom: 0.5rem;
+}
+
+.party-subtitle {
+    font-family: 'Kanit', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 300;
+    color: var(--text-ivory);
+    margin-bottom: 2.5rem;
+}
+
+.party-input-group {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.party-input {
+    background: rgba(5, 6, 10, 0.6);
+    border: 1px solid var(--gold-line);
+    border-bottom: 2px solid var(--gold-mid);
+    color: var(--text-white);
+    font-family: 'Kanit', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 400;
+    text-align: center;
+    width: 120px;
+    padding: 0.5rem;
+    border-radius: var(--radius-sm);
+    transition: all 0.3s;
+    outline: none;
+}
+
+.party-input:focus {
+    border-color: var(--gold-light);
+    box-shadow: 0 10px 30px rgba(201, 168, 76, 0.15);
+    background: rgba(10, 12, 18, 0.8);
+}
+
+/* Hide number input arrows */
+.party-input::-webkit-outer-spin-button,
+.party-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+.party-input[type=number] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+
+.party-unit {
+    font-family: 'Kanit', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 300;
+    color: var(--text-warm);
+}
+
+.party-warning {
+    font-family: 'Kanit', sans-serif;
+    font-size: 0.8rem;
+    color: #e57373;
+    margin-bottom: 2rem;
+    opacity: 0;
+    transition: opacity 0.3s;
+    height: 1rem;
+}
+
+.party-btn {
+    background: linear-gradient(135deg, var(--gold-mid), var(--gold-dark));
+    color: var(--bg-deep);
+    border: none;
+    padding: 1rem 2rem;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all 0.4s;
+    width: 100%;
+    margin-top: 1rem;
+    box-shadow: 0 4px 15px rgba(201, 168, 76, 0.3);
+}
+
+.party-btn:hover {
+    background: linear-gradient(135deg, var(--gold-light), var(--gold-mid));
+    box-shadow: 0 8px 25px rgba(201, 168, 76, 0.4), inset 0 0 10px rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
 }
 
 /* ---- EMPTY STATE ---- */
