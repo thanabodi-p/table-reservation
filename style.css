@@ -822,18 +822,20 @@ main {
 }
 
 .per-person-label {
-    font-family: 'Montserrat', 'Kanit', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 0.65rem;
     font-weight: 500;
     letter-spacing: 0.1em;
+    text-transform: uppercase;
     color: var(--text-warm);
 }
 
 .per-person-val {
-    font-family: 'Kanit', 'Montserrat', sans-serif;
-    font-size: 0.9rem;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.65rem;
     font-weight: 500;
-    color: var(--text-ivory);
+    text-transform: uppercase;
+    color: var(--text-warm);
 }
 
 /* ---- LAYOUT BUTTON ---- */
@@ -1142,6 +1144,7 @@ main {
     -webkit-appearance: none;
     margin: 0;
 }
+
 .party-input[type=number] {
     -moz-appearance: textfield;
     appearance: textfield;
