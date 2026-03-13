@@ -105,7 +105,7 @@ modal.addEventListener('dragstart', (e) => e.preventDefault());
 // ใน iOS การจะ preventDefault ต้องมี passive: false
 modal.addEventListener('touchstart', touchStart, { passive: true });
 modal.addEventListener('touchend', touchEnd);
-modal.addEventListener('touchcancel', touchEnd); 
+modal.addEventListener('touchcancel', touchEnd);
 modal.addEventListener('touchmove', touchMove, { passive: false });
 
 // เสริมให้ใช้เมาส์ลากได้ด้วยบน Desktop
@@ -148,7 +148,7 @@ function touchMove(event) {
             return;
         }
     }
-    
+
     // ถ้ากำลังเลื่อนซ้ายขวา (Slide) ให้บล็อค default event ของเบราว์เซอร์
     if (isDragging && !isScrolling) {
         if (event.cancelable) {
@@ -302,6 +302,22 @@ function populateFilters() {
     });
 }
 
+// ฟังก์ชันเช็คว่าโต๊ะนี้ถูกแนะนำหรือไม่
+function isTableRecommended(table, currentPartySize) {
+    if (table.status !== 'ว่าง' || currentPartySize <= 0) return false;
+    
+    // 1-7 คน -> แนะนำโต๊ะเดี่ยว (1 โต๊ะ)
+    if (currentPartySize >= 1 && currentPartySize <= 7 && table.quantity === 1) {
+        return true;
+    } 
+    // 7-14 คน -> แนะนำโต๊ะคู่ (2 โต๊ะขึ้นไป) 
+    else if (currentPartySize >= 7 && currentPartySize <= 14 && table.quantity >= 2) {
+        return true;
+    }
+    
+    return false;
+}
+
 // ฟังก์ชันแสดงผลการ์ดข้อมูลโต๊ะ
 function renderTables(tables) {
     tablesContainer.innerHTML = '';
@@ -314,7 +330,34 @@ function renderTables(tables) {
         return;
     }
 
-    tables.forEach(table => {
+    // เรียงลำดับข้อมูลใหม่ก่อนแสดงผล
+    // ลำดับความสำคัญ: 1. โต๊ะที่แนะนำ -> 2. โต๊ะว่างปกติ -> 3. โต๊ะที่ถูกจองแล้ว
+    // ภายในกลุ่มเดียวกันจะเรียงตามวันที่ (ซึ่งเรียงมาก่อนหน้านี้แล้วจาก fetchData) แต่เพื่อความชัวร์ จะเรียงอีกรอบ
+    const sortedTables = [...tables].sort((a, b) => {
+        const isRecA = isTableRecommended(a, partySize);
+        const isRecB = isTableRecommended(b, partySize);
+        
+        // ถ้าสถานะแนะนำไม่เหมือนกัน เอาตัวแนะนำขึ้นก่อน
+        if (isRecA !== isRecB) {
+            return isRecA ? -1 : 1;
+        }
+
+        // สถานะว่าง ขึ้นก่อนสถานะถูกจอง
+        const isAvailA = a.status === 'ว่าง';
+        const isAvailB = b.status === 'ว่าง';
+        if (isAvailA !== isAvailB) {
+            return isAvailA ? -1 : 1; 
+        }
+        
+        // ถ้าสถานะแนะนำและความว่างเหมือนกัน ให้เรียงตามวันที่
+        const dateA = parseSheetDate(a.date);
+        const dateB = parseSheetDate(b.date);
+        if (!dateA) return 1;
+        if (!dateB) return -1;
+        return dateA - dateB;
+    });
+
+    sortedTables.forEach(table => {
         const card = document.createElement('div');
         card.className = 'table-card';
 
@@ -331,19 +374,11 @@ function renderTables(tables) {
         const isAvailable = table.status === 'ว่าง';
         const statusClass = isAvailable ? 'status-available' : 'status-booked';
         const statusText = isAvailable ? 'AVAILABLE' : 'RESERVED';
-        
+
         // Recommendation System
         let recommendedBadgeHTML = '';
-        if (isAvailable && partySize > 0) {
-            // 1-7 คน -> แนะนำโต๊ะเดี่ยว (1 โต๊ะ)
-            if (partySize >= 1 && partySize <= 7 && table.quantity === 1) {
-                recommendedBadgeHTML = `<div class="recommended-badge">Recommended for ${partySize} pax</div>`;
-            } 
-            // 7-14 คน -> แนะนำโต๊ะคู่ (2 โต๊ะขึ้นไป) 
-            // (ถ้า 7 คน พอดี จะเข้าเงื่อนไขทั้งโต๊ะเดี่ยวและคู่)
-            else if (partySize >= 7 && partySize <= 14 && table.quantity >= 2) {
-                recommendedBadgeHTML = `<div class="recommended-badge">Recommended for ${partySize} pax</div>`;
-            }
+        if (isTableRecommended(table, partySize)) {
+            recommendedBadgeHTML = `<div class="recommended-badge">Recommended for ${partySize} pax</div>`;
         }
 
         const layoutButtonHTML = table.layoutImages && table.layoutImages.length > 0
@@ -366,13 +401,13 @@ function renderTables(tables) {
 
         // Copy text
         const copyText = `สนใจจอง ${table.storeName} วันที่ ${formattedDate} โซน ${table.zone} โต๊ะ ${table.tableNumber}`;
-        
+
         // Per-person price calculation
         let perPersonHTML = '';
         if (partySize > 0 && table.total > 0) {
             const extraCost = table.total - (table.creditPrice * table.quantity);
             const perPersonCost = Math.ceil(Math.max(0, extraCost) / partySize);
-            perPersonHTML = `<span class="per-person-price">(ตกคนละ ${perPersonCost.toLocaleString()} ฿)</span>`;
+            perPersonHTML = `<span class="per-person-price">(ตกท่านละ ${perPersonCost.toLocaleString()} ฿)</span>`;
         }
 
         card.innerHTML = `
