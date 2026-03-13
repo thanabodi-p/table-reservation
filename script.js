@@ -402,18 +402,7 @@ function renderTables(tables) {
         // Copy text
         const copyText = `สนใจจอง ${table.storeName} วันที่ ${formattedDate} โซน ${table.zone} โต๊ะ ${table.tableNumber}`;
 
-        // Per-person price calculation
-        let perPersonHTML = '';
-        if (partySize > 0 && table.total > 0) {
-            const extraCost = table.total - (table.creditPrice * table.quantity);
-            const perPersonCost = Math.ceil(Math.max(0, extraCost) / partySize);
-            perPersonHTML = `
-                <div class="per-person-wrapper">
-                    <span class="per-person-label">(ตกท่านละ</span>
-                    <span class="per-person-val">${perPersonCost.toLocaleString()} บาท)</span>
-                </div>
-            `;
-        }
+
 
         card.innerHTML = `
             <div class="card-header ${themeClass}">
@@ -459,7 +448,7 @@ function renderTables(tables) {
             <div class="card-footer">
                 <div class="total-row">
                     <span class="total-label">Total</span>
-                    <span class="total-price">${table.total.toLocaleString()} ฿ ${perPersonHTML}</span>
+                    <span class="total-price">${table.total.toLocaleString()} ฿</span>
                 </div>
                 ${layoutButtonHTML}
             </div>
