@@ -71,21 +71,21 @@ let startPosY = 0;
 let isScrolling = false;
 
 // ป้องกันการลากรูปภาพเป็น default พฤติกรรมของเบราว์เซอร์
-carouselTrack.addEventListener('dragstart', (e) => e.preventDefault());
+modal.addEventListener('dragstart', (e) => e.preventDefault());
 
 // ใน iOS การจะ preventDefault ต้องมี passive: false
-carouselTrack.addEventListener('touchstart', touchStart, { passive: true });
-carouselTrack.addEventListener('touchend', touchEnd);
-carouselTrack.addEventListener('touchcancel', touchEnd); 
-carouselTrack.addEventListener('touchmove', touchMove, { passive: false });
+modal.addEventListener('touchstart', touchStart, { passive: true });
+modal.addEventListener('touchend', touchEnd);
+modal.addEventListener('touchcancel', touchEnd); 
+modal.addEventListener('touchmove', touchMove, { passive: false });
 
 // เสริมให้ใช้เมาส์ลากได้ด้วยบน Desktop
-carouselTrack.addEventListener('mousedown', touchStart);
-carouselTrack.addEventListener('mouseup', touchEnd);
-carouselTrack.addEventListener('mouseleave', (e) => {
+modal.addEventListener('mousedown', touchStart);
+modal.addEventListener('mouseup', touchEnd);
+modal.addEventListener('mouseleave', (e) => {
     if (isDragging) touchEnd(e);
 });
-carouselTrack.addEventListener('mousemove', touchMove);
+modal.addEventListener('mousemove', touchMove);
 
 function getPositionX(event) {
     return event.type.includes('mouse') ? event.clientX : event.touches[0].clientX;
