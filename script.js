@@ -38,22 +38,22 @@ if (partySubmit) {
         const value = parseInt(partyInput.value, 10);
         if (value > 0) {
             partySize = value;
-            
+
             // 1. Fade out modal smoothly
             partyModal.style.transition = 'opacity 0.6s ease, backdrop-filter 0.6s ease';
             partyModal.style.opacity = '0';
             partyModal.style.backdropFilter = 'blur(0px)';
-            
+
             // Scroll to top to see animation clearly
             window.scrollTo({ top: 0, behavior: 'smooth' });
-            
+
             setTimeout(() => {
                 partyModal.style.display = 'none';
                 document.body.style.overflow = ''; // คืนค่าการเลื่อนหน้าจอ
-                
+
                 if (allTables.length > 0) {
                     const currentCards = tablesContainer.querySelectorAll('.table-card');
-                    
+
                     // 2. Animate out current cards
                     currentCards.forEach((card, index) => {
                         card.classList.remove('card-entering');
@@ -65,19 +65,19 @@ if (partySubmit) {
                     overlay.className = 'curating-overlay';
                     overlay.innerHTML = '<span class="gold-text">✧</span> CURATING RECOMMENDATIONS <span class="gold-text">✧</span>';
                     document.body.appendChild(overlay);
-                    
+
                     setTimeout(() => { overlay.style.opacity = '1'; }, 50);
 
                     // 4. Wait for out animation + subtle pause, then re-render
                     const hideTime = 400 + (currentCards.length * 30);
                     setTimeout(() => {
                         // This rebuilds cards, triggers staggered card-entering animation
-                        applyFilters(); 
-                        
+                        applyFilters();
+
                         overlay.style.opacity = '0';
                         setTimeout(() => overlay.remove(), 600);
-                        
-                    }, hideTime + 1500); // หน่วงเวลา 1.5 วินาที ตามที่ต้องการ
+
+                    }, hideTime + 1000); // หน่วงเวลา 1 วินาที ตามที่ต้องการ
                 }
             }, 600);
         } else {
