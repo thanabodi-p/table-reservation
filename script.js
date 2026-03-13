@@ -71,15 +71,17 @@ let startPos = 0;
 // ป้องกันการลากรูปภาพเป็น default พฤติกรรมของเบราว์เซอร์
 carouselTrack.addEventListener('dragstart', (e) => e.preventDefault());
 
-carouselTrack.addEventListener('touchstart', touchStart, { passive: true });
+// ใช้ passive: false เพื่อให้สามารถสั่ง preventDefault() ดักจับ gesture ของเบราว์เซอร์ได้
+carouselTrack.addEventListener('touchstart', touchStart, { passive: false });
 carouselTrack.addEventListener('touchend', touchEnd);
-carouselTrack.addEventListener('touchmove', touchMove, { passive: true });
+carouselTrack.addEventListener('touchcancel', touchEnd); // เผื่อเบราว์เซอร์ยกเลิกการทัช
+carouselTrack.addEventListener('touchmove', touchMove, { passive: false });
 
 // เสริมให้ใช้เมาส์ลากได้ด้วยบน Desktop
 carouselTrack.addEventListener('mousedown', touchStart);
 carouselTrack.addEventListener('mouseup', touchEnd);
-carouselTrack.addEventListener('mouseleave', (e) => { 
-    if(isDragging) touchEnd(e); 
+carouselTrack.addEventListener('mouseleave', (e) => {
+    if (isDragging) touchEnd(e);
 });
 carouselTrack.addEventListener('mousemove', touchMove);
 
@@ -96,16 +98,21 @@ function touchStart(event) {
 
 function touchMove(event) {
     if (!isDragging) return;
-    
+
+    // สำคัญ: ป้องกันการเลื่อน/คลื่นหรือการ "ปัดกลับ (Swipe back)" แบบ default ของเเบราว์เซอร์ โดยเฉพาะใน iOS
+    if (event.cancelable) {
+        event.preventDefault();
+    }
+
     const currentPosition = getPositionX(event);
     const diff = currentPosition - startPos;
     const shift = (-(currentSlideIndex * 100)) + ((diff / carouselTrack.offsetWidth) * 100);
-    
+
     // จำกัดไม่ให้ลากเลยกรอบซ้ายและขวาสุดมากเกินไป (หนืดๆ)
     if (currentSlideIndex === 0 && diff > 0) {
-        carouselTrack.style.transform = `translateX(${shift * 0.2}%)`; 
+        carouselTrack.style.transform = `translateX(${shift * 0.2}%)`;
     } else if (currentSlideIndex === modalImages.length - 1 && diff < 0) {
-        carouselTrack.style.transform = `translateX(${(-(currentSlideIndex * 100)) + (diff / carouselTrack.offsetWidth * 100) * 0.2}%)`; 
+        carouselTrack.style.transform = `translateX(${(-(currentSlideIndex * 100)) + (diff / carouselTrack.offsetWidth * 100) * 0.2}%)`;
     } else {
         carouselTrack.style.transform = `translateX(${shift}%)`;
     }
@@ -114,18 +121,18 @@ function touchMove(event) {
 function touchEnd(event) {
     if (!isDragging) return;
     isDragging = false;
-    
+
     let endPos;
     if (event.type.includes('mouse')) {
         endPos = event.clientX;
     } else if (event.changedTouches && event.changedTouches.length > 0) {
         endPos = event.changedTouches[0].clientX;
     } else {
-        endPos = startPos; 
+        endPos = startPos;
     }
-    
+
     const diff = endPos - startPos;
-    
+
     carouselTrack.style.transition = 'transform 0.4s ease-in-out'; // เปิด transition กลับมาเหมือนเดิม
 
     const swipeThreshold = carouselTrack.offsetWidth * 0.15; // ต้องลากผ่าน 15% ของความกว้าง
@@ -135,7 +142,7 @@ function touchEnd(event) {
     } else if (diff > swipeThreshold && currentSlideIndex > 0) {
         currentSlideIndex--;
     }
-    
+
     updateCarousel();
 }
 
