@@ -5,50 +5,35 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&family=Kanit:wght@200;300;400;500&display=swap');
 
 :root {
-    /* Core palette — near-black editorial */
-    --bg-deep: #05060a;
-    --bg-surface: #080b10;
-    --bg-card: #0b0e16;
-    --bg-card-alt: #0e1219;
-    --bg-footer: #080b10;
+    /* พื้นหลังดำอมเทา (Charcoal) ดูแพงกว่าดำสนิท */
+    --bg-deep: #111214;
+    --bg-surface: #16171a;
+    --bg-card: #16171a;
+    --bg-card-alt: #1a1c20;
+    --bg-footer: #111214;
 
-    /* Gold system — warm, aged, editorial */
-    --gold-white: #faf4e6;
-    --gold-light: #e8cb82;
-    --gold: #c9a84c;
-    --gold-mid: #a8863c;
-    --gold-dark: #7a5e28;
-    --gold-dim: rgba(201, 168, 76, 0.10);
-    --gold-glow: rgba(201, 168, 76, 0.28);
-    --gold-line: rgba(201, 168, 76, 0.18);
+    /* สีทองแชมเปญตุ่นๆ (Champagne/Bronze) ไม่ตะโกน */
+    --gold-white: #f2efe9;
+    --gold-light: #d6cab5;
+    --gold: #b3a286;
+    --gold-mid: #8a7c66;
+    --gold-dark: #5c5344;
+    --gold-dim: rgba(179, 162, 134, 0.08);
+    --gold-glow: rgba(179, 162, 134, 0.15);
+    --gold-line: rgba(179, 162, 134, 0.2);
 
-    /* Platinum accent */
-    --plat: rgba(230, 225, 215, 0.55);
-    --plat-thin: rgba(230, 225, 215, 0.08);
+    /* ตัวอักษร */
+    --text-white: #eaeaea;
+    --text-ivory: #cfcaca;
+    --text-warm: #a39c94;
+    --text-muted: #706a64;
 
-    /* Store themes */
-    --burgundy-deep: #3a0a14;
-    --burgundy: #6b1a2a;
-    --cobalt-deep: #060e20;
-    --cobalt: #0f1e42;
-    --noir-deep: #08080f;
-    --noir: #10101c;
-
-    /* Typography */
-    --text-white: #f5f0e8;
-    --text-ivory: #ddd4bc;
-    --text-warm: #b0a080;
-    --text-muted: #5a5040;
-    --text-ghost: #2e2a22;
-
-    /* Geometry */
+    /* Shadows - ลดความฟุ้งของเงาลง */
+    --shadow-card: 0 10px 40px rgba(0, 0, 0, 0.4);
+    --shadow-card-hv: 0 15px 50px rgba(0, 0, 0, 0.6), 0 0 0 1px var(--gold-line) inset;
     --radius-sm: 2px;
     --radius: 4px;
     --radius-lg: 8px;
-
-    /* Shadows */
-    --shadow-card: 0 20px 60px rgba(0, 0, 0, 0.7), 0 4px 20px rgba(0, 0, 0, 0.5);
-    --shadow-card-hv: 0 30px 80px rgba(0, 0, 0, 0.9), 0 0 40px rgba(201, 168, 76, 0.10), 0 0 1px var(--gold-line) inset;
 }
 
 /* ---- RESET ---- */
@@ -83,11 +68,7 @@ body::before {
 
 /* ---- AMBIENT LIGHT ---- */
 .ambient-bg {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 0;
-    overflow: hidden;
+    display: none;
 }
 
 .orb {
@@ -194,21 +175,12 @@ header::after {
     font-weight: 300;
     font-style: italic;
     line-height: 0.9;
-    color: var(--text-white);
+    color: var(--gold-light);
+    /* ใช้สีทองแชมเปญทึบๆ ไปเลย */
     letter-spacing: -0.01em;
     margin-bottom: 0.6rem;
-    /* Foil shimmer via gradient */
-    background: linear-gradient(135deg,
-            var(--text-white) 0%,
-            var(--gold-light) 35%,
-            var(--gold-white) 50%,
-            var(--gold-light) 65%,
-            var(--text-white) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    background-size: 200% 200%;
-    animation: shimmer 8s ease-in-out infinite alternate;
+    text-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    /* ใส่เงาดำเบาๆ แทนเงาสีทอง */
 }
 
 @keyframes shimmer {
@@ -688,24 +660,23 @@ main {
 } */
 
 .status-available {
-    background: rgba(40, 180, 100, 0.2);
-    /* เพิ่มความเข้มพื้นหลัง (จากเดิม 0.08) */
-    color: #6eeea6;
-    border: 1px solid rgba(40, 180, 100, 0.6);
-    /* เน้นเส้นขอบให้สว่างขึ้น */
-    box-shadow: 0 0 15px rgba(40, 180, 100, 0.25);
-    text-shadow: 0 0 5px rgba(40, 200, 100, 0.5);
-    /* ลดเงาตัวหนังสือลงนิดหน่อยไม่ให้ดูลายตา */
+    background: transparent;
+    color: #8b9c8c;
+    /* สีเขียวตุ่นๆ แบบใบไม้ (Sage Green) */
+    border: 1px solid rgba(139, 156, 140, 0.4);
+    box-shadow: none;
+    /* เอาแสง Glow ออก */
+    text-shadow: none;
 }
 
 .status-booked {
-    background: rgba(220, 50, 80, 0.2);
-    /* เพิ่มความเข้มพื้นหลัง (จากเดิม 0.08) */
-    color: #f08090;
-    border: 1px solid rgba(220, 50, 80, 0.6);
-    /* เน้นเส้นขอบให้สว่างขึ้น */
-    box-shadow: 0 0 15px rgba(220, 50, 80, 0.25);
-    text-shadow: 0 0 5px rgba(220, 50, 80, 0.5);
+    background: transparent;
+    color: #a88181;
+    /* สีแดงอิฐตุ่นๆ (Muted Rose) */
+    border: 1px solid rgba(168, 129, 129, 0.4);
+    box-shadow: none;
+    /* เอาแสง Glow ออก */
+    text-shadow: none;
 }
 
 /* ---- CARD BODY ---- */
@@ -822,15 +793,15 @@ main {
 
 .total-price {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 2rem;
-    font-weight: 400;
+    font-size: 2.3rem;
+    font-weight: 500;
     color: var(--gold-light);
     line-height: 1;
     letter-spacing: 0.02em;
     display: flex;
     align-items: baseline;
     gap: 0.5rem;
-    text-shadow: 0 0 20px rgba(201, 168, 76, 0.4);
+    /* text-shadow: 0 0 20px rgba(201, 168, 76, 0.4); ลบบรรทัดแสง Glow นี้ทิ้งไปเลยครับ */
 }
 
 /* ---- ANIMATIONS FOR RE-SORTING ---- */
