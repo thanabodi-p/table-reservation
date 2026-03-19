@@ -412,7 +412,7 @@ function renderTables(tables) {
         // Status badge
         const isAvailable = table.status === 'ว่าง';
         const statusClass = isAvailable ? 'status-available' : 'status-booked';
-        const statusText = isAvailable ? 'AVAILABLE' : 'RESERVED';
+        const statusText = isAvailable ? 'ว่าง' : 'ถูกจองแล้ว';
 
         // Recommendation System
         let recommendedBadgeHTML = '';
