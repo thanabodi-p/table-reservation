@@ -417,7 +417,7 @@ function renderTables(tables) {
         // Recommendation System
         let recommendedBadgeHTML = '';
         if (isTableRecommended(table, partySize)) {
-            recommendedBadgeHTML = `<div class="recommended-badge">แนะนำสำหรับ ${partySize} ท่าน</div>`;
+            recommendedBadgeHTML = `<div class="recommended-badge"> recommended for ${partySize} people</div>`;
         }
 
         const layoutButtonHTML = table.layoutImages && table.layoutImages.length > 0
