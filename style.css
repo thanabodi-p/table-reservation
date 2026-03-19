@@ -2,7 +2,7 @@
 /* MAISON RESERVE — ULTRA-LUXURY DARK EDITORIAL                 */
 /* ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&family=Kanit:wght@200;300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&family=Prompt:wght@200;300;400;500&display=swap');
 
 :root {
     /* พื้นหลังดำอมเทา (Charcoal) ดูแพงกว่าดำสนิท */
@@ -47,7 +47,7 @@
 
 /* ---- BODY ---- */
 body {
-    font-family: 'Kanit', 'Montserrat', sans-serif;
+    font-family: 'Prompt', 'Montserrat', sans-serif;
     background-color: var(--bg-deep);
     color: var(--text-ivory);
     min-height: 100vh;
@@ -274,7 +274,7 @@ header::after {
 }
 
 .banner-text {
-    font-family: 'Kanit', sans-serif;
+    font-family: 'Prompt', sans-serif;
     font-size: 0.75rem;
     font-weight: 300;
     color: var(--text-ivory);
@@ -282,7 +282,7 @@ header::after {
 }
 
 .banner-text strong {
-    font-family: 'Montserrat', 'Kanit', sans-serif;
+    font-family: 'Montserrat', 'Prompt', sans-serif;
     font-weight: 500;
     color: var(--gold-light);
     letter-spacing: 0.05em;
@@ -334,7 +334,7 @@ main {
     border: 1px solid var(--gold-line);
     border-radius: var(--radius-sm);
     background-color: rgba(8, 10, 13, 0.8);
-    font-family: 'Kanit', sans-serif;
+    font-family: 'Prompt', sans-serif;
     font-size: 0.82rem;
     font-weight: 300;
     color: var(--text-ivory);
@@ -501,7 +501,7 @@ main {
     border-bottom: 1px solid rgba(179, 162, 134, 0.15);
     /* ขีดเส้นขอบล่างบางๆ */
     color: var(--gold-light);
-    font-family: 'Kanit', sans-serif;
+    font-family: 'Prompt', sans-serif;
     font-size: 0.7rem;
     font-weight: 300;
     letter-spacing: 0.08em;
@@ -546,7 +546,7 @@ main {
 }
 
 .store-name {
-    font-family: 'Kanit', sans-serif;
+    font-family: 'Prompt', sans-serif;
     font-size: 1.35rem;
     font-weight: 500;
     letter-spacing: 0.04em;
@@ -565,7 +565,7 @@ main {
 
 .date-tag,
 .day-tag {
-    font-family: 'Kanit', sans-serif;
+    font-family: 'Prompt', sans-serif;
     font-weight: 500;
     padding: 0.2rem 0.5rem;
     border-radius: 4px;
@@ -737,7 +737,7 @@ main {
 }
 
 .detail-value {
-    font-family: 'Kanit', sans-serif;
+    font-family: 'Prompt', sans-serif;
     font-size: 1rem;
     font-weight: 400;
     color: var(--text-white);
@@ -781,7 +781,7 @@ main {
 }
 
 .notes-section .detail-value {
-    font-family: 'Kanit', sans-serif;
+    font-family: 'Prompt', sans-serif;
     font-weight: 300;
     font-size: 0.9rem;
     line-height: 1.7;
@@ -1147,7 +1147,7 @@ main {
 }
 
 .party-subtitle {
-    font-family: 'Kanit', sans-serif;
+    font-family: 'Prompt', sans-serif;
     font-size: 1.1rem;
     font-weight: 300;
     color: var(--text-ivory);
@@ -1167,7 +1167,7 @@ main {
     border: 1px solid var(--gold-line);
     border-bottom: 2px solid var(--gold-mid);
     color: var(--text-white);
-    font-family: 'Kanit', sans-serif;
+    font-family: 'Prompt', sans-serif;
     font-size: 2.5rem;
     font-weight: 400;
     text-align: center;
@@ -1197,14 +1197,14 @@ main {
 }
 
 .party-unit {
-    font-family: 'Kanit', sans-serif;
+    font-family: 'Prompt', sans-serif;
     font-size: 1.2rem;
     font-weight: 300;
     color: var(--text-warm);
 }
 
 .party-warning {
-    font-family: 'Kanit', sans-serif;
+    font-family: 'Prompt', sans-serif;
     font-size: 0.8rem;
     color: #e57373;
     margin-bottom: 2rem;
@@ -1373,7 +1373,7 @@ main {
     left: 50%;
     transform: translateX(-50%) translateY(10px);
     transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
-    font-family: 'Kanit', sans-serif;
+    font-family: 'Prompt', sans-serif;
     font-size: 0.75rem;
     font-weight: 300;
     letter-spacing: 0.02em;
