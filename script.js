@@ -77,7 +77,7 @@ if (partySubmit) {
                         overlay.style.opacity = '0';
                         setTimeout(() => overlay.remove(), 600);
 
-                    }, hideTime + 1000); // หน่วงเวลา 1 วินาที ตามที่ต้องการ
+                    }, hideTime + 500); // หน่วงเวลา 1 วินาที ตามที่ต้องการ
                 }
             }, 600);
         } else {
@@ -417,7 +417,7 @@ function renderTables(tables) {
         // Recommendation System
         let recommendedBadgeHTML = '';
         if (isTableRecommended(table, partySize)) {
-            recommendedBadgeHTML = `<div class="recommended-badge">Recommended for ${partySize} pax</div>`;
+            recommendedBadgeHTML = `<div class="recommended-badge">แนะนำสำหรับ ${partySize} ท่าน</div>`;
         }
 
         const layoutButtonHTML = table.layoutImages && table.layoutImages.length > 0
@@ -486,7 +486,7 @@ function renderTables(tables) {
             </div>
             <div class="card-footer">
                 <div class="total-row">
-                    <span class="total-label">Total</span>
+                    <span class="total-label">รวมทั้งหมด</span>
                     <span class="total-price">${table.total.toLocaleString()} ฿</span>
                 </div>
                 ${layoutButtonHTML}
