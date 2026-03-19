@@ -479,7 +479,13 @@ function renderTables(tables) {
                     <span class="detail-value">${table.quantity} โต๊ะ</span>
                 </div>
                 <div class="detail-row">
-                    <span class="detail-label">มูลค่าเครดิตโต๊ะ</span>
+                    <span class="detail-label" style="display: flex; align-items: center;">
+                        มูลค่าเครดิตโต๊ะ
+                        <span class="info-tooltip" tabindex="0">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                            <span class="tooltip-text">สามารถนำไปจ่ายแทนค่าเครื่องดื่มได้</span>
+                        </span>
+                    </span>
                     <span class="detail-value">${(table.creditPrice * table.quantity).toLocaleString()}</span>
                 </div>
                 ${notesHTML}
